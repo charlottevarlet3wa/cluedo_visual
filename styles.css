@@ -1,0 +1,189 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(26, 25px);
+    grid-template-rows: repeat(27, 20px);
+    /* gap: 2px; */
+}
+
+.square {
+    border: 1px solid grey;
+    border-left: none;
+    border-bottom: none;
+}
+
+.room {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    background-color: white;
+}
+
+.room {
+    font-size: 12px;
+    text-align: center;
+    color: #333;
+    background-color: lightgray;
+}
+
+.door {
+    background-color: pink;
+}
+
+.highlight {
+    background-color: orange;
+}
+
+.square.door.highlight {
+    background-color: red;
+}
+
+/* Exemple d'arrangement des pièces */
+.room.kitchen { grid-area: 1 / 1 / 10 / 6; } /* Cuisine occupe 2 colonnes */
+.room.ballroom { grid-area: 1 / 10 / 6 / 18; } /* Salle de bal occupe 3 colonnes */
+.room.conservatory { grid-area: 1 / 22 / 12 / 27; } /* Conservatoire occupe 2 colonnes */
+.room.dining-room { grid-area: 16 / 1 / 22 / 6; } /* Salle à manger */
+.room.library { grid-area: 18 / 10 / 22 / 18; } /* Bibliothèque occupe 2 colonnes */
+.room.lounge { grid-area: 15 / 22 / 22 / 27; } /* Salon occupe 2 colonnes */
+.room.hall { grid-area: 9 / 11 / 15 / 17; } /* Hall occupe 2 colonnes */
+
+
+.pos {
+    position: absolute;
+    border: 1px solid black;
+    width: 50px;
+    height: 50px;
+}
+
+.pos.kitchen {
+    width: calc(5 * 25px);
+    height: calc(9 * 20px);
+    left: calc(0 * 25px);
+    top: calc(0 * 20px);
+}
+.pos.ballroom {
+    width: calc(8 * 25px);
+    height: calc(5 * 20px);
+    left: calc(9 * 25px);
+    top: calc(0 * 20px);    
+}
+.pos.conservatory {
+    width: calc(5 * 25px);
+    height: calc(11 * 20px);
+    left: calc(21 * 25px);
+    top: calc(0 * 20px);
+}
+.pos.dining-room {
+    width: calc(5 * 25px);
+    height: calc(6 * 20px);
+    left: calc(0 * 25px);
+    top: calc(15 * 20px);
+}
+.pos.library {
+    width: calc(8 * 25px);
+    height: calc(4 * 20px);
+    left: calc(9 * 25px);
+    top: calc(17 * 20px);
+}
+.pos.lounge {
+    width: calc(5 * 25px);
+    height: calc(7 * 20px);
+    left: calc(21 * 25px);
+    top: calc(14 * 20px);
+}
+.pos.hall {
+    width: calc(6 * 25px);
+    height: calc(6 * 20px);
+    left: calc(10 * 25px);
+    top: calc(8 * 20px);
+}
+
+
+
+.character {
+    position: absolute;
+    width: 20px; /* Assurez-vous que cela correspond à la largeur des carrés */
+    height: 20px; /* Assurez-vous que cela correspond à la hauteur des carrés */
+    border-radius: 50%;
+    z-index: 10; /* Assurez que le personnage apparaît au-dessus des carrés */
+}
+
+.tooltip {
+    display: none; /* Masqué par défaut */
+    position: absolute;
+    padding: 5px;
+    background-color: black;
+    color: white;
+    border-radius: 3px;
+    font-size: 12px;
+    z-index: 20;
+}
+
+/* MESSAGE */
+
+.message-log {
+    width: 700px; /* ou une largeur spécifique */
+    height: 200px; /* ajustez selon les besoins */
+    overflow-y: auto; /* permet le défilement vertical */
+    background-color: #f4f4f4; /* couleur de fond de la div */
+    border: 1px solid #ccc; /* bordure de la div */
+    padding: 10px; /* espace intérieur pour le padding */
+    box-sizing: border-box; /* inclut padding et border dans la largeur et hauteur */
+    font-family: Arial, sans-serif; /* police de caractères */
+    font-size: 0.8rem;
+    line-height: 1rem;
+}
+
+
+/* TABLE */
+
+table, th, td {
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+table tbody th {
+    width: 120px;
+}
+
+th, td {
+    padding: 5px;
+}
+
+.circle {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+.mustard {
+    background-color: gold;
+}
+
+.plum {
+    background-color: violet;
+}
+
+.green {
+    background-color: greenyellow;
+}
+
+.peacock {
+    background-color: lightblue;
+}
+
+.scarlet {
+    background-color: red;
+}
+
+.white {
+    background-color: beige;
+    border: 1px solid black;
+}
