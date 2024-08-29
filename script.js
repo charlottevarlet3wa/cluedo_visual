@@ -1,4 +1,881 @@
+// DOM
+const errorElem = document.getElementById('error');
+
 // GAME
+const game = {
+    characters: {
+        mustard: {
+            name: "Colonel Mustard",
+            roll: function(){},
+            move: function(x, y){},
+            suggest: function(character, weapon, room){},
+            accuse: function(character, weapon, room){},
+            skip: function(){}
+        },
+        green : {
+            name: "Mr. Green",
+            roll: function(){},
+            move: function(x, y){},
+            suggest: function(character, weapon, room){},
+            accuse: function(character, weapon, room){},
+            skip: function(){}
+        },
+        peacock : {
+            name: "Mrs. Peacock",
+            roll: function(){},
+            move: function(x, y){},
+            suggest: function(character, weapon, room){},
+            accuse: function(character, weapon, room){},
+            skip: function(){}
+        },
+        scarlet : {
+            name: "Miss Scarlet",
+            roll: function(){},
+            move: function(x, y){},
+            suggest: function(character, weapon, room){},
+            accuse: function(character, weapon, room){},
+            skip: function(){}
+        },
+        white: {
+            name: "Mrs. White",
+            roll: function(){},
+            move: function(x, y){},
+            suggest: function(character, weapon, room){},
+            accuse: function(character, weapon, room){},
+            skip: function(){}
+        }
+    },
+    weapons: ["Dagger", "Candle Stick", "Revolver", "Rope", "Lead Pipe", "Wrench"],
+    rooms: {
+        ballroom : {
+            name: "Ballroom"
+        },
+        kitchen : {
+            name: "Kitchen"
+        },
+        hall : {
+            name: "Hall"
+        },
+        lounge : {
+            name: "Lounge"
+        },
+        diningRoom : {
+            name: "Dining Room"
+        },
+        conservatory : {
+            name: "Conservatory"
+        },
+        library : {
+            name: "Library"
+        }
+    }
+}
+
+const sheet = {
+    suspects : {
+        mustard: {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"}
+        },
+        green : {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"}
+        },
+        peacock : {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"}
+        },
+        scarlet : {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"}
+        },
+        white: {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"}
+        }
+    },
+    weapons: {
+        dagger : {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"}   
+        },
+        candlestick: {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"} 
+        },
+        revolver: {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"} 
+        },
+        rope: {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"} 
+        },
+        pipe: {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"} 
+        },
+        wrench: {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"} 
+        },
+    },
+    rooms: {
+        ballroom : {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"} 
+        },
+        kitchen : {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"} 
+        },
+        hall : {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"} 
+        },
+        lounge : {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"} 
+        },
+        diningRoom : {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"} 
+        },
+        conservatory : {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"} 
+        },
+        library : {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "white"},
+            peacock: {text: "", backgroundColor: "white"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"} 
+        }
+    }
+}
+
+
+// Exemple de liens d'images pour chaque personnage
+const characterImages = {
+    mustard: "images/mustard.png",
+    green: "images/green.png",
+    peacock: "images/peacock.png",
+    scarlet: "images/scarlet.png",
+    white: "images/white.png"
+};
+
+
+function selectCharacter(characterKey) {
+    gameState.selectedCharacter = characterKey;
+    const characterName = game.characters[characterKey].name;
+
+    // Update name and image in the info section
+    document.getElementById('my-name').textContent = characterName;
+    const imageElement = document.createElement('img');
+    imageElement.src = characterImages[characterKey];
+    imageElement.alt = characterName;
+    imageElement.style.width = '100px';
+    imageElement.style.height = 'auto';
+
+    const imageContainer = document.getElementById('my-image');
+    imageContainer.innerHTML = '';
+    imageContainer.appendChild(imageElement);
+
+    // Disable methods for other characters
+    for (const charKey in game.characters) {
+        if (charKey !== characterKey) {
+            for (const method in game.characters[charKey]) {
+                if (typeof game.characters[charKey][method] === 'function') {
+                    game.characters[charKey][method] = null;
+                }
+            }
+        }
+    }
+    // Update humanPlayerIndex
+    gameState.humanPlayerIndex = gameState.players.findIndex(name => name == characterName);
+
+    // Hide selection UI and start the game
+    document.getElementById('character-selection').style.display = 'none';
+    document.getElementById('info-container').classList.add(characterKey);
+    const tables = document.querySelectorAll('table');
+    tables.forEach(table => {
+        table.classList.add(characterKey);
+    })
+    setupGame();
+}
+
+// Exemple d'événement clic pour chaque image
+document.querySelectorAll('#character-selection img').forEach(image => {
+    image.addEventListener('click', function() {
+        const characterKey = this.getAttribute('data-character'); // Supposons que chaque image a un attribut data-character-key
+        selectCharacter(characterKey);
+    });
+});
+
+function updateSheetText(category, row, column, newText) {
+    if (sheet[category] && sheet[category][row] && sheet[category][row][column]) {
+        sheet[category][row][column].text = newText;
+        const cell = document.querySelector(`#${category}-${row}-${column}`);
+        if (cell) {
+            cell.textContent = newText;
+        }
+    } else {
+        displayError("Invalid sheet reference.");
+    }
+}
+
+function updateSheetBackgroundColor(category, row, column, newColor) {
+    if (sheet[category] && sheet[category][row] && sheet[category][row][column]) {
+        sheet[category][row][column].backgroundColor = newColor;
+        const cell = document.querySelector(`#${category}-${row}-${column}`);
+        if (cell) {
+            cell.style.backgroundColor = newColor;
+        }
+    } else {
+        displayError("Invalid sheet reference.");
+    }
+}
+
+// function executeCommand(command) {
+    
+//     // Remove unnecessary spaces
+//     command = command.trim();
+
+//     // Check if the command concerns 'sheet'
+//     const sheetRegex = /^sheet\.(suspects|weapons|rooms)\.([a-zA-Z]+)\.([a-zA-Z]+)\.(text|backgroundColor)\s*=\s*['"](.+)['"]\s*;?$/;
+//     const sheetMatch = command.match(sheetRegex);
+
+//     if (sheetMatch) {
+//         const [, category, row, column, property, value] = sheetMatch;
+
+//         // Validate categories, rows, and columns
+//         if (!sheet[category]) {
+//             displayError(`Invalid category "${category}".`);
+//             return;
+//         }
+
+//         if (!sheet[category][row]) {
+//             displayError(`Invalid name "${row}" in category "${category}".`);
+//             return;
+//         }
+
+//         if (!sheet[category][row][column]) {
+//             displayError(`Invalid name "${column}" for row "${row}" in category "${category}".`);
+//             return;
+//         }
+
+//         // Apply the modification
+//         sheet[category][row][column][property] = value;
+//         const cellId = `${category}-${row}-${column}`;
+//         const cell = document.getElementById(cellId);
+
+//         if (property === 'text') {
+//             cell.textContent = value;
+//         } else if (property === 'backgroundColor') {
+//             cell.style.backgroundColor = value;
+//         }
+
+//         return;
+//     }
+
+//     // Check if the command concerns 'game'
+//     const gameCommandRegex = /^game\.characters\.([a-zA-Z]+)\.([a-zA-Z]+)\(([^)]*)\)\s*;?$/;
+//     const gameMatch = command.match(gameCommandRegex);
+
+//     if (gameMatch) {
+//         const [, characterName, methodName, params] = gameMatch;
+
+//         // Restrict command execution to the selected character
+//         if (characterName !== gameState.selectedCharacter) {
+//             displayError(`You cannot control ${characterName}.`);
+//             return;
+//         }
+
+//         const character = game.characters[characterName];
+//         if (typeof character[methodName] !== 'function') {
+//             displayError(`Invalid method "${methodName}" for the character "${characterName}".`);
+//             return;
+//         }
+
+//         // Extract and apply parameters
+//         let args = params.split(',').map(arg => arg.trim().replace(/^['"]|['"]$/g, ''));
+
+//         // Call the appropriate method with the provided arguments
+//         switch (methodName) {
+//             case 'move':
+//                 if(gameState.currentStep != 'move'){
+//                     displayError("Method 'move' is unavailable right now.")
+//                     return;
+//                 }
+//                 if (args.length === 2) {
+//                     const [x, y] = args.map(Number);
+//                     if (isNaN(x) || isNaN(y)) {
+//                         displayError("Coordinates must be numbers.");
+//                         return;
+//                     }
+//                     const hasMoved = move(x, y);
+//                     if(hasMoved) {
+//                         gameState.currentStep = 'choose';
+//                     }
+//                 } else {
+//                     displayError("The move command requires two parameters: x and y.");
+//                 }
+//                 break;
+//             case 'roll':
+//                 if(gameState.currentStep != 'dice'){
+//                     displayError(`Method '${methodName}' is unavailable right now.`)
+//                     return;
+//                 }
+//                 rollDice();
+//                 gameState.currentStep = 'move';
+//                 break;
+//             case 'suggest':
+//                 if(gameState.currentStep != 'choose'){
+//                     displayError(`Method '${methodName}' is unavailable right now.`)
+//                     return;
+//                 }
+//                 if (args.length === 3) {
+//                     const [suspect, weapon, room] = args;
+//                     const hasSuggested = makeSuggestion(suspect, weapon, room);
+//                     if(hasSuggested){
+//                         gameState.currentStep = 'aiDice';
+//                     }
+//                 } else {
+//                     displayError("The suggest command requires three parameters: character, weapon, and room.");
+//                 }
+//                 break;
+//             case 'accuse':
+//                 if(gameState.currentStep != 'choose'){
+//                     displayError(`Method '${methodName}' is unavailable right now.`)
+//                     return;
+//                 }
+//                 if (args.length === 3) {
+//                     const [suspect, weapon, room] = args;
+//                     makeAccusation(suspect, weapon, room);
+//                 } else {
+//                     displayError("The accuse command requires three parameters: character, weapon, and room.");
+//                 }
+//                 break;
+//             case 'skip':
+//                 if(gameState.currentStep != 'choose'){
+//                     displayError(`Method '${methodName}' is unavailable right now.`)
+//                     return;
+//                 }
+//                 gameState.currentStep = 'aiDice';
+//                 skip();
+//                 break;
+//             default:
+//                 displayError(`Unknown method "${methodName}".`);
+//                 break;
+//         }
+
+//         return;
+//     }
+
+//     // If no valid command is found
+//     displayError('Invalid command. Use a valid format for sheet or game.');
+// }
+
+function executeCommand(command) {
+    // Remove unnecessary spaces
+    command = command.trim();
+
+    // Check if the command concerns 'sheet'
+    const sheetRegex = /^sheet\.(suspects|weapons|rooms)\.([a-zA-Z]+)\.([a-zA-Z]+)\.(text|backgroundColor)\s*=\s*['"](.+)['"]\s*;?$/;
+    const sheetMatch = command.match(sheetRegex);
+
+    if (sheetMatch) {
+        const [, category, row, column, property, value] = sheetMatch;
+
+        // Validate categories, rows, and columns
+        if (!sheet[category]) {
+            displayError(`Invalid category "${category}".`);
+            return;
+        }
+
+        if (!sheet[category][row]) {
+            displayError(`Invalid name "${row}" in category "${category}".`);
+            return;
+        }
+
+        if (!sheet[category][row][column]) {
+            displayError(`Invalid name "${column}" for row "${row}" in category "${category}".`);
+            return;
+        }
+
+        // Apply the modification
+        sheet[category][row][column][property] = value;
+        const cellId = `${category}-${row}-${column}`;
+        const cell = document.getElementById(cellId);
+
+        if (property === 'text') {
+            cell.textContent = value;
+        } else if (property === 'backgroundColor') {
+            cell.style.backgroundColor = value;
+        }
+
+        return;
+    }
+
+    // Check if the command concerns 'game'
+    const gameCommandRegex = /^game\.characters\.([a-zA-Z]+)\.([a-zA-Z]+)\(([^)]*)\)\s*;?$/;
+    const gameMatch = command.match(gameCommandRegex);
+
+    if (gameMatch) {
+        const [, characterName, methodName, params] = gameMatch;
+
+        // Restrict command execution to the selected character
+        if (characterName !== gameState.selectedCharacter) {
+            displayError(`You cannot control ${characterName}.`);
+            return;
+        }
+
+        const character = game.characters[characterName];
+        if (typeof character[methodName] !== 'function') {
+            displayError(`Invalid method "${methodName}" for the character "${characterName}".`);
+            return;
+        }
+
+        // Extract and process parameters
+        let args = params.split(',').map(arg => arg.trim());
+
+        // Convert references to their actual values if necessary
+        args = args.map(arg => {
+            if (arg.startsWith('game.characters.')) {
+                const argArr = arg.split('.');
+                if(argArr.length < 4){
+                    displayError('Invalid character argument.');
+                    return;
+                }
+                const charKey = argArr[2];
+                if(!charKey || !game.characters[charKey]){
+                    displayError('Invalid character name.')
+                    return;
+                }
+                if(argArr[3] != 'name'){
+                    displayError('Character name must be a string.')
+                    return;
+                }
+                return game.characters[charKey].name;
+            } else if (arg.startsWith('game.rooms.')) {
+                const argArr = arg.split('.')
+                if(argArr.length < 4){
+                    displayError('Invalid room argument.');
+                    return;
+                }
+                const roomKey = arg.split('.')[2];
+                if(!roomKey || !game.rooms[roomKey]){
+                    displayError('Invalid room name.')
+                    return;
+                }
+                if(argArr[3] != 'name'){
+                    displayError('Character name must be a string.')
+                    return;
+                }
+                return game.rooms[roomKey].name;
+            } else if (arg.startsWith('game.weapons[')) {
+                const weaponIndex = parseInt(arg.match(/\[(\d+)\]/)[1]);
+                if(!game.weapons[weaponIndex]){
+                    displayError('Invalid weapon index.')
+                    return;
+                }
+                return game.weapons[weaponIndex];
+            } else {
+                return arg.replace(/^['"]|['"]$/g, ''); // Strip quotes if it's a string
+            }
+        });
+
+        // Call the appropriate method with the processed arguments
+        switch (methodName) {
+            case 'move':
+                if (gameState.currentStep !== 'move') {
+                    displayError("Method 'move' is unavailable right now.");
+                    return;
+                }
+                if (args.length === 2) {
+                    const [x, y] = args.map(Number);
+                    if (isNaN(x) || isNaN(y)) {
+                        displayError("Coordinates must be numbers.");
+                        return;
+                    }
+                    const hasMoved = move(x, y);
+                    if (hasMoved) {
+                        displayError('');
+                        gameState.currentStep = 'choose';
+                    }
+                } else {
+                    displayError("The move command requires two parameters: x and y.");
+                }
+                break;
+            case 'roll':
+                if (gameState.currentStep !== 'dice') {
+                    displayError(`Method '${methodName}' is unavailable right now.`);
+                    return;
+                }
+                rollDice();
+                displayError('');
+                gameState.currentStep = 'move';
+                break;
+            case 'suggest':
+                if (gameState.currentStep !== 'choose') {
+                    displayError(`Method '${methodName}' is unavailable right now.`);
+                    return;
+                }
+                if (args.length === 3) {
+                    const [suspect, weapon, room] = args;
+                    const hasSuggested = makeSuggestion(suspect, weapon, room);
+                    if (hasSuggested) {
+                        displayError('');
+                        gameState.currentStep = 'aiDice';
+                    }
+                } else {
+                    displayError("The suggest command requires three parameters: character, weapon, and room.");
+                }
+                break;
+            case 'accuse':
+                if (gameState.currentStep !== 'choose') {
+                    displayError(`Method '${methodName}' is unavailable right now.`);
+                    return;
+                }
+                if (args.length === 3) {
+                    const [suspect, weapon, room] = args;
+                    displayError('');
+                    makeAccusation(suspect, weapon, room);
+                } else {
+                    displayError("The accuse command requires three parameters: character, weapon, and room.");
+                }
+                break;
+            case 'skip':
+                if (gameState.currentStep !== 'choose') {
+                    displayError(`Method '${methodName}' is unavailable right now.`);
+                    return;
+                }
+                displayError('');
+                gameState.currentStep = 'aiDice';
+                skip();
+                break;
+            default:
+                displayError(`Unknown method "${methodName}".`);
+                break;
+        }
+        return;
+    }
+
+    // If no valid command is found
+    displayError('Invalid command. Use a valid format for sheet or game.');
+}
+
+
+// COMMAND INPUT
+
+
+const commandInput = document.getElementById('command-input');
+
+// Liste des options d'autocomplétion par contexte
+const autoCompleteOptions = {
+    initial: ["game", "sheet"],
+    sheet: ["suspects", "weapons", "rooms"],
+    sheetCharacter: ["mustard", "green", "peacock", "scarlet", "white"], // noms des suspects
+    sheetProperty: ["text", "backgroundColor"],
+    game: ["characters", "weapons", "rooms"],
+    gameCharacter: ["mustard", "green", "peacock", "scarlet", "white"], // noms des personnages
+    gameRoom: ["ballroom", "kitchen", "hall", "lounge", "diningRoom", "conservatory", "library"],
+    gameMethod: ["suggest", "accuse", "move", "roll", "skip"],
+    name: ["name"]
+};
+
+// Événement keydown pour l'autocomplétion
+commandInput.addEventListener('keydown', function(event) {
+
+    if(event.key === 'Enter'){
+        event.preventDefault();
+        const command = document.getElementById('command-input').value.trim();
+        executeCommand(command);
+    }
+    
+    if (event.ctrlKey || event.altKey || event.metaKey || event.key.length > 1) return;
+
+    let currentText = commandInput.value;
+
+    if (event.key.match(/[a-zA-Z0-9]/)) {
+        currentText += event.key;
+
+        // Déterminer le contexte actuel en fonction du texte déjà saisi
+        let suggestions = [];
+        let parts = currentText.split('(')[0].split('.');
+        let lastPart = parts.pop(); // On récupère la dernière partie à compléter
+        let args = [];
+
+        // Gérer les méthodes avec arguments
+        if (currentText.includes('(')) {
+            const methodParts = currentText.split('(')[1];
+            args = methodParts.split(','); // Arguments
+        }
+
+        // Sélectionner les suggestions en fonction du contexte
+        if (parts.length === 0) {
+            suggestions = autoCompleteOptions.initial;
+        } else if (parts[0] === "sheet") {
+            if (parts.length === 1) {
+                suggestions = autoCompleteOptions.sheet;
+            } else if (parts.length === 2) {
+                suggestions = autoCompleteOptions.sheetCharacter;
+            } else if (parts.length === 3) {
+                suggestions = autoCompleteOptions.sheetCharacter;
+            } else if (parts.length === 4) {
+                suggestions = autoCompleteOptions.sheetProperty;
+            }
+        } else if (parts[0] === "game") {
+            if (parts.length === 1) {
+                suggestions = autoCompleteOptions.game;
+            } else if (parts[1] === "characters" && parts.length === 2) {
+                suggestions = autoCompleteOptions.gameCharacter;
+            } else if (parts[1] === "characters" && parts.length === 3) {
+                suggestions = autoCompleteOptions.gameMethod;
+            } else if (parts[1] === "rooms" && parts.length === 2) {
+                suggestions = autoCompleteOptions.gameRoom;
+            }
+        }
+
+        // Gérer l'autocomplétion des arguments
+        if (args.length > 0) {
+            const lastArg = args[args.length - 1].trim();
+            const argParts = lastArg.split('.');
+
+            if (argParts.length === 1) {
+                suggestions = autoCompleteOptions.initial;
+            } else if (argParts.length === 2) {
+                if (argParts[0] === "game") {
+                    suggestions = autoCompleteOptions.game;
+                }
+            } else if (argParts[1] === "characters" && argParts.length === 3) {
+                suggestions = autoCompleteOptions.gameCharacter;
+            } else if (argParts[1] === "rooms" && argParts.length === 3) {
+                suggestions = autoCompleteOptions.gameRoom;
+            } else if (argParts.length === 4 && argParts[3] === "name") {
+                suggestions = autoCompleteOptions.name;
+            }
+
+            const lastArgPart = argParts[argParts.length - 1];
+            const matchingOptions = suggestions.filter(option => option.startsWith(lastArgPart));
+
+            if (matchingOptions.length === 1) {
+                event.preventDefault();
+                console.log(args.length)
+                console.log(argParts.length)
+
+                // if (args.length === 1 && argParts.length === 1) {
+                if (argParts.length === 1) {
+                    console.log('premier')
+                    args[args.length - 1] = matchingOptions[0];
+                } else {
+                    args[args.length - 1] = argParts.slice(0, -1).join('.') + '.' + matchingOptions[0];
+                }
+
+                parts.push(lastPart); // Ajouter la partie déjà complétée
+                commandInput.value = parts.join('.') + '(' + args.join(', ');
+            }
+        } else {
+            // Autocomplétion normale pour le texte en dehors des arguments
+            const matchingOptions = suggestions.filter(option => option.startsWith(lastPart));
+
+            if (matchingOptions.length === 1) {
+                event.preventDefault();
+                parts.push(matchingOptions[0]); // Ajouter la partie complétée
+
+                if (currentText.includes('(')) {
+                    // S'il y a déjà une parenthèse ouvrante, on ne touche pas à la suite
+                    commandInput.value = parts.join('.') + '(' + args.join(', ');
+                } else {
+                    commandInput.value = parts.join('.');
+                }
+            }
+        }
+    }
+});
+
+
+// const commandInput = document.getElementById('command-input');
+
+// // Liste des options d'autocomplétion par contexte
+// const autoCompleteOptions = {
+//     initial: ["game", "sheet"],
+//     sheet: ["suspects", "weapons", "rooms"],
+//     sheetCharacter: ["mustard", "green", "peacock", "scarlet", "white"], // noms des suspects
+//     sheetProperty: ["text", "backgroundColor"],
+//     game: ["characters", "weapons", "rooms"],
+//     gameCharacter: ["mustard", "green", "peacock", "scarlet", "white"], // noms des personnages
+//     gameRoom: ["ballroom", "kitchen", "hall", "lounge", "diningRoom", "conservatory", "library"],
+//     gameMethod: ["suggest", "accuse", "move", "roll", "skip"],
+//     name: ["name"]
+// };
+
+// // Événement keydown pour l'autocomplétion
+// commandInput.addEventListener('keydown', function(event) {
+//     if (event.ctrlKey || event.altKey || event.metaKey || event.key.length > 1) return;
+
+//     let currentText = commandInput.value;
+
+//     if (event.key.match(/[a-zA-Z0-9]/)) {
+//         currentText += event.key;
+
+//         // Déterminer le contexte actuel en fonction du texte déjà saisi
+//         let suggestions = [];
+//         // let parts = currentText.split('.');
+//         let parts = currentText.split('(')[0].split('.');
+//         let lastPart = parts.pop(); // On récupère la dernière partie à compléter
+//         let args = [];
+
+//         // Gérer les méthodes avec arguments
+//         if (currentText.includes('(')) {
+//             const methodParts = currentText.split('(')[1];
+//             args = methodParts.split(','); // Arguments
+//         }
+
+//         // Sélectionner les suggestions en fonction du contexte
+//         if (parts.length === 0) {
+//             suggestions = autoCompleteOptions.initial;
+//         } else if (parts[0] === "sheet") {
+//             if (parts.length === 1) {
+//                 suggestions = autoCompleteOptions.sheet;
+//             } else if (parts.length === 2) {
+//                 suggestions = autoCompleteOptions.sheetCharacter;
+//             } else if (parts.length === 3) {
+//                 suggestions = autoCompleteOptions.sheetCharacter;
+//             } else if (parts.length === 4) {
+//                 suggestions = autoCompleteOptions.sheetProperty;
+//             }
+//         } else if (parts[0] === "game") {
+//             if (parts.length === 1) {
+//                 suggestions = autoCompleteOptions.game;
+//             } else if (parts[1] === "characters" && parts.length === 2) {
+//                 suggestions = autoCompleteOptions.gameCharacter;
+//             } else if (parts[1] === "characters" && parts.length === 3) {
+//                 suggestions = autoCompleteOptions.gameMethod;
+//             } else if (parts[1] === "rooms" && parts.length === 2) {
+//                 suggestions = autoCompleteOptions.gameRoom;
+//             }
+//         }
+
+//         // Gérer l'autocomplétion des arguments
+//         if (args.length > 0) {
+//             const lastArg = args[args.length - 1].trim();
+//             const argParts = lastArg.split('.');
+
+//             if (argParts.length === 1) {
+//                 suggestions = autoCompleteOptions.initial;
+//             } else if (argParts.length === 2) {
+//                 if (argParts[0] === "game") {
+//                     suggestions = autoCompleteOptions.game;
+//                 }
+//             } else if (argParts[1] === "characters" && argParts.length === 3) {
+//                 suggestions = autoCompleteOptions.gameCharacter;
+//             } else if (argParts[1] === "rooms" && argParts.length === 3) {
+//                 suggestions = autoCompleteOptions.gameRoom;
+//             } else if (argParts.length === 4 && argParts[3] === "name") {
+//                 suggestions = autoCompleteOptions.name;
+//             }
+
+//             const lastArgPart = argParts[argParts.length - 1];
+//             const matchingOptions = suggestions.filter(option => option.startsWith(lastArgPart));
+
+//             if (matchingOptions.length === 1) {
+//                 event.preventDefault();
+//                 console.log('hey !')
+//                 console.log('arg parts :')
+//                 console.log(argParts)
+//                 console.log('slie :')
+//                 console.log(argParts.slice(0, -1))
+//                 console.log('join :')
+//                 console.log(argParts.slice(0, -1).join('.'))
+//                 console.log('args :')
+//                 console.log(args)
+//                 console.log('args length :')
+//                 console.log(args.length)
+//                 if(!args[0]) {
+//                     args[args.length - 1] = matchingOptions[0];
+//                 } else {
+//                     args[args.length - 1] = argParts.slice(0, -1).join('.') + '.' + matchingOptions[0];
+//                 }
+//                 parts.push(lastPart); // Ajouter la partie déjà complétée
+//                 commandInput.value = parts.join('.') + '(' + args.join(', ');
+//             }
+//         } else {
+//             // Autocomplétion normale pour le texte en dehors des arguments
+//             const matchingOptions = suggestions.filter(option => option.startsWith(lastPart));
+
+//             if (matchingOptions.length === 1) {
+//                 event.preventDefault();
+//                 parts.push(matchingOptions[0]); // Ajouter la partie complétée
+
+//                 if (currentText.includes('(')) {
+//                     // S'il y a déjà une parenthèse ouvrante, on ne touche pas à la suite
+//                     commandInput.value = parts.join('.') + '(' + args.join(', ');
+//                 } else {
+//                     commandInput.value = parts.join('.');
+//                 }
+//             }
+//         }
+//     }
+// });
+
+
+
+
+
+
 const gameState = {
     players: ["Colonel Mustard", "Mr. Green", "Mrs. Peacock", "Miss Scarlet", "Mrs. White"], // 5 joueurs
     playersId: ["colonel-mustard", "mr-green", "mrs-peacock", "miss-scarlet", "mrs-white"], // 5 joueurs
@@ -25,7 +902,8 @@ const gameState = {
     messageBox: document.getElementById('message-box'),
     aiObjectives: [], // Stocke les objectifs des IA
     aiRoomStayCount: [], // Compte le nombre de tours passés dans une pièce par les IA
-    aiCurrentRooms: [null, null, null, null, null]
+    aiCurrentRooms: [null, null, null, null, null],
+    isStarted: false
 };
 
 const log = document.getElementById('message-log');
@@ -79,7 +957,7 @@ const doors = [
 
 // SHEET
 
-const sheet = {
+const sheet2 = {
     mustard: {mustard: {text: "", backgroundColor: ""}, green: {text: "", backgroundColor: ""}, peacock: {text: "", backgroundColor: ""}, scarlet: {text: "", backgroundColor: ""}, white: {text: "", backgroundColor: ""}},
     green: {mustard: {text: "", backgroundColor: ""}, green: {text: "", backgroundColor: ""}, peacock: {text: "", backgroundColor: ""}, scarlet: {text: "", backgroundColor: ""}, white: {text: "", backgroundColor: ""}},
     peacock: {mustard: {text: "", backgroundColor: ""}, green: {text: "", backgroundColor: ""}, peacock: {text: "", backgroundColor: ""}, scarlet: {text: "", backgroundColor: ""}, white: {text: "", backgroundColor: ""}},
@@ -89,13 +967,13 @@ const sheet = {
 
 // Setup game
 function setupGame() {
-    populateSelects();
+    // populateSelects();
     initializeDeck();
     selectSolution();
     distributeCards();
 
     // SHEET
-    createSheetTable();
+    // createSheetTable();
 
     // Initialisation des positions des personnages
     setCharacterPosition(document.getElementById('miss-scarlet'), 7, 3);
@@ -118,8 +996,6 @@ function setupGame() {
         gameState.aiObjectives.push(closestDoor);
     });
 
-    gameState.humanPlayerIndex = 0; // Par exemple, Miss Scarlet est le joueur humain // test
-    document.getElementById('my-name').textContent = gameState.players[gameState.humanPlayerIndex];
     document.getElementById('my-cards').textContent = "My cards: " + gameState.cards[gameState.humanPlayerIndex];
     nextPlayer();
 }
@@ -174,13 +1050,19 @@ function distributeCards() {
 }
 
 function nextPlayer() {
-    gameState.interrogatingCharacterIndex = (gameState.interrogatingCharacterIndex + 1) % gameState.players.length;
-    gameState.currentStep = "dice";
+    if(!gameState.isStarted){
+        gameState.isStarted = true;
+    } else {
+        gameState.interrogatingCharacterIndex = (gameState.interrogatingCharacterIndex + 1) % gameState.players.length;
+    }
+    
     displayMessage('', true);
     if (gameState.interrogatingCharacterIndex === gameState.humanPlayerIndex) {
+        gameState.currentStep = "dice";
         gameState.isPlayerTurn = true;
         playerTurn();
     } else {
+        gameState.currentStep = "aiDice";
         aiTurn();
     }
 }
@@ -193,28 +1075,28 @@ function playerTurn() {
 function aiTurn() {
     const aiPlayer = gameState.players[gameState.interrogatingCharacterIndex];
     switch (gameState.currentStep) {
-        case 'dice':
+        case 'aiDice':
             setTimeout(() => {
                 rollDice();
-                gameState.currentStep = 'move';
+                gameState.currentStep = 'aiMove';
                 aiTurn();
             }, 2000);
             break;
-        case 'move':
+        case 'aiMove':
             setTimeout(() => {
                 const isInRoom = aiMoveCharacter(characters[gameState.interrogatingCharacterIndex]);
 
                 if (isInRoom) {
-                    gameState.currentStep = 'suggest';
+                    gameState.currentStep = 'aiSuggest';
                     updateRoomStayCount(gameState.interrogatingCharacterIndex);
                     aiTurn();
                 } else {
-                    gameState.currentStep = 'dice';
+                    gameState.currentStep = 'aiDice';
                     nextPlayer();
                 }
             }, 2000);
             break;
-        case 'suggest':
+        case 'aiSuggest':
             const suggestion = aiMakeSuggestion();
             displayMessage(`${aiPlayer} makes a suggestion: ${suggestion}.`);
             gameState.suggestionResponseIndex = 0;
@@ -255,7 +1137,6 @@ function updateRoomStayCount(aiIndex) {
 
 function getMostVisitedRooms(aiIndex) {
     const stayCounts = gameState.aiRoomStayCount[aiIndex];
-    console.log("stayCounts: ", stayCounts);
 
     // Trier les pièces par nombre de visites décroissant
     const sortedRooms = Object.keys(stayCounts).sort((a, b) => stayCounts[b] - stayCounts[a]);
@@ -303,12 +1184,8 @@ function findClosestAccessibleSquare(accessibleSquares, targetDoor) {
     let minDistance = Infinity;
     let differentRoomDoors = [];
 
-    console.log("find closest square:");
     const currentRoom = characters[gameState.interrogatingCharacterIndex].getAttribute('room');
-    console.log("current room: ", currentRoom);
 
-    console.log("accessible squares: ", accessibleSquares);
-    console.log("target door: ", targetDoor);
 
     accessibleSquares.forEach(square => {
         const x = parseInt(square.getAttribute('x'), 10);
@@ -350,7 +1227,6 @@ function aiMoveCharacter(character) {
     const characterX = parseInt(character.getAttribute('x'), 10);
     const characterY = parseInt(character.getAttribute('y'), 10);
     const doorObjective = findClosestDoor(characterX, characterY);
-    console.log("door objective (ai move): ", doorObjective);
     const accessibleSquares = getAccessibleSquares();
     const closestSquare = findClosestAccessibleSquare(accessibleSquares, doorObjective);
     const characterName = gameState.players[gameState.interrogatingCharacterIndex];
@@ -363,7 +1239,8 @@ function aiMoveCharacter(character) {
             character.setAttribute('room', roomAttribute);
             moveToRandomPositionInRoom(character, roomAttribute);
 
-            gameState.currentStep = "suggest";
+            // gameState.currentStep = "suggest";
+            gameState.currentStep = "aiSuggest";
             displayMessage(`${characterName} goes to the ${roomName}.`);
             return true; // in a room
         } else {
@@ -383,11 +1260,26 @@ function chooseRandomCard(deck) {
 }
 
 // Fonction pour faire une suggestion aléatoire
+// function aiMakeSuggestion() {
+//     const character = chooseRandomCard(gameState.deck.characters);
+//     const weapon = chooseRandomCard(gameState.deck.weapons);
+//     const roomAttribute = characters[gameState.interrogatingCharacterIndex].getAttribute('room');
+//     const room = roomAttributeToName(roomAttribute);
+//     return [character, weapon, room];
+// }
+
 function aiMakeSuggestion() {
+    const aiIndex = gameState.interrogatingCharacterIndex;
+    const currentRoom = characters[aiIndex].getAttribute('room');
+
+    if (!currentRoom) {
+        displayMessage(`${gameState.players[aiIndex]} cannot make a suggestion as they are not in a room.`);
+        return;
+    }
+
     const character = chooseRandomCard(gameState.deck.characters);
     const weapon = chooseRandomCard(gameState.deck.weapons);
-    const roomAttribute = characters[gameState.interrogatingCharacterIndex].getAttribute('room');
-    const room = roomAttributeToName(roomAttribute);
+    const room = roomAttributeToName(currentRoom);
     return [character, weapon, room];
 }
 
@@ -423,9 +1315,9 @@ function aiCheckSuggestion(suggestion) {
 // MESSAGES
 
 // Show game messages
-function showMessage(message) {
-    gameState.messageBox.textContent = message;
-}
+// function showMessage(message) {
+//     gameState.messageBox.textContent = message;
+// }
 
 // Select a random card
 function selectRandomCard(deck) {
@@ -446,14 +1338,18 @@ function setCharacterPosition(character, x, y) {
 }
 
 function moveToRandomPositionInRoom(character, roomName) {
+    
     const room = document.querySelector(`.room.${roomName}`);
+    
     if (room) {
         const {left, top, width, height} = roomToPosition.get(roomName);
+        
         const randomX = Math.floor(Math.random() * (width - 50)) + left + 10;
         const randomY = Math.floor(Math.random() * (height - 50)) + top + 10;
 
         const x = Math.floor(randomX / 25);
         const y = Math.floor(randomY / 20);
+
         character.style.left = `${randomX}px`;
         character.style.top = `${randomY}px`;
     }
@@ -475,27 +1371,27 @@ squares.forEach(square => {
         tooltip.style.display = 'none';
     });
 
-    square.addEventListener('click', function () {
-        const selected = characters[gameState.interrogatingCharacterIndex];
-        const selectedName = gameState.players[gameState.interrogatingCharacterIndex];
-        if (selected && this.classList.contains('highlight')) {
-            clearHighlights();
-            if (this.classList.contains('door')) {
-                const roomName = this.getAttribute('room');
-                selected.setAttribute('room', roomName);
-                moveToRandomPositionInRoom(selected, roomName);
-                gameState.currentStep = "suggest";
-                displayMessage(`${selectedName} goes to the ${roomName}.`);
-                showMessage('Choose between suggestion and accusation.');
-            } else {
-                const x = parseInt(this.getAttribute('x'), 10);
-                const y = parseInt(this.getAttribute('y'), 10);
-                setCharacterPosition(selected, x, y);
-                displayMessage(`${selectedName} goes to (${x},${y}).`);
-                showMessage('Choose between accusation and pass.');
-            }
-        }
-    });
+    // square.addEventListener('click', function () {
+    //     const selected = characters[gameState.interrogatingCharacterIndex];
+    //     const selectedName = gameState.players[gameState.interrogatingCharacterIndex];
+    //     if (selected && this.classList.contains('highlight')) {
+    //         clearHighlights();
+    //         if (this.classList.contains('door')) {
+    //             const roomName = this.getAttribute('room');
+    //             selected.setAttribute('room', roomName);
+    //             moveToRandomPositionInRoom(selected, roomName);
+    //             gameState.currentStep = "suggest";
+    //             displayMessage(`${selectedName} goes to the ${roomName}.`);
+    //             showMessage('Choose between suggestion and accusation.');
+    //         } else {
+    //             const x = parseInt(this.getAttribute('x'), 10);
+    //             const y = parseInt(this.getAttribute('y'), 10);
+    //             setCharacterPosition(selected, x, y);
+    //             displayMessage(`${selectedName} goes to (${x},${y}).`);
+    //             showMessage('Choose between accusation and pass.');
+    //         }
+    //     }
+    // });
 });
 
 // MOVEMENTS
@@ -532,6 +1428,8 @@ function clearHighlights() {
     });
 }
 
+
+
 function rollDice() {
     const dice = Math.ceil(Math.random() * 6);
     clearHighlights();
@@ -566,21 +1464,80 @@ function rollDice() {
     }
 }
 
-// SUGGESTION
+function move(x, y) {
+    // Trouver la case correspondante aux coordonnées x et y
+    const selected = characters[gameState.interrogatingCharacterIndex];
+    const selectedName = gameState.players[gameState.interrogatingCharacterIndex];
 
-function chooseSuggestion() {
-    showMessage("Make a suggestion.");
+    const targetSquare = document.querySelector(`.square[x="${x}"][y="${y}"]`);
+    
+    if (!targetSquare) {
+        displayError(`La case (${x}, ${y}) n'existe pas.`);
+        return false;
+    }
+
+    // Vérifier que la case est en surbrillance (highlight)
+    if (!targetSquare.classList.contains('highlight')) {
+        displayError(`Vous ne pouvez pas vous déplacer sur la case (${x}, ${y}) car elle n'est pas accessible.`);
+        return false;
+    }
+
+    // Déplacer le personnage sur la case
+    const characterElement = document.getElementById(gameState.playersId[gameState.humanPlayerIndex]);
+
+    if (targetSquare.classList.contains('door')) {
+        const roomName = targetSquare.getAttribute('room');
+        selected.setAttribute('room', roomName);
+        moveToRandomPositionInRoom(selected, roomName);
+        gameState.currentStep = "suggest";
+        displayMessage(`${selectedName} goes to the ${roomName}.`);
+    } else {
+        console.log('not door')
+        const x = parseInt(targetSquare.getAttribute('x'), 10);
+        const y = parseInt(targetSquare.getAttribute('y'), 10);
+        setCharacterPosition(selected, x, y);
+        displayMessage(`${selectedName} goes to (${x},${y}).`);
+    }
+
+    // Supprimer la surbrillance après le déplacement
+    clearHighlights();
+
+    // Afficher un message de confirmation
+    displayMessage(`Colonel Mustard se déplace sur la case (${x}, ${y}).`);
+
+    return true;
 }
 
-function makeSuggestion() {
-    const character = document.getElementById('character-select').value;
-    const weapon = document.getElementById('weapon-select').value;
-    const room = document.getElementById('room-select').value;
+// SKIP TURN (player)
+function skip(){
+    // TODO replace with playerName; replace his with her
+    displayMessage("Colonel Mustard skips his turn.");
+    nextPlayer();
+}
+
+// SUGGESTION
+
+
+function makeSuggestion(character, weapon, room) {
+    const playerIndex = gameState.humanPlayerIndex;
+    const currentRoom = roomAttributeToName(characters[playerIndex].getAttribute('room'));
+
+    if (!currentRoom) {
+        displayError("You are not in a room. You cannot make a suggestion.");
+        return false;
+    }
+
+    if (currentRoom.toLowerCase() !== room.toLowerCase()) {
+        displayError(`You can only make a suggestion for the room you are currently in: ${roomAttributeToName(currentRoom)}.`);
+        return false;
+    }
+
     gameState.suggestion = [character, weapon, room];
-    showMessage(`Your suggestion: ${gameState.suggestion}.`);
+    // showMessage(`Your suggestion: ${gameState.suggestion}.`);
     displayMessage(`Your suggestion: ${gameState.suggestion}.`);
     nextPlayer();
     checkSuggestion();
+    return true;
 }
 
 function checkSuggestion() {
@@ -614,21 +1571,27 @@ function checkSuggestion() {
 }
 
 // ACCUSATION
+function makeAccusation(character, weapon, room) {
+    const playerIndex = gameState.humanPlayerIndex;
+    const currentRoom = roomAttributeToName(characters[playerIndex].getAttribute('room'));
 
-function chooseAccusation() {
-    showMessage("Make an accusation.");
-}
+    if (!currentRoom) {
+        displayError("You are not in a room. You cannot make an accusation.");
+        return;
+    }
 
-function makeAccusation() {
-    const character = document.getElementById('character-select').value;
-    const weapon = document.getElementById('weapon-select').value;
-    const room = document.getElementById('room-select').value;
+    if (currentRoom.toLowerCase() !== room.toLowerCase()) {
+        displayError(`You can only make an accusation for the room you are currently in: ${roomAttributeToName(currentRoom)}.`);
+        return;
+    }
+
     gameState.accusation = [character, weapon, room];
     const {solution} = gameState;
     if (character == solution.character && weapon == solution.weapon && room == solution.room) {
-        showMessage(`Well done! It was ${solution}.`);
+        displayMessage(`Well done! It was ${solution.character} with the ${solution.weapon} in the ${solution.room}.`);
     } else {
-        showMessage(`Your accusation: ${gameState.accusation} is wrong.`);
+        displayMessage(`Your accusation: ${gameState.accusation} is wrong.  It was ${solution.character} with the ${solution.weapon} in the ${solution.room}.`);
+        gameState.isFalseAccusation = true; // Prevent further actions by the player
     }
 }
 
@@ -670,30 +1633,41 @@ function displayMessage(message, br = false) {
     log.scrollTop = log.scrollHeight; // Défile vers le bas à chaque nouveau message
 }
 
+// Seul le premier mot a une capitale
+// function roomAttributeToName(attribute) {
+//     const name = attribute.charAt(0).toUpperCase() + attribute.slice(1).replace(/-/g, " ");
+//     return name;
+// }
+
+// Tous les mots ont une capitale
 function roomAttributeToName(attribute) {
-    const name = attribute.charAt(0).toUpperCase() + attribute.slice(1).replace(/-/g, " ");
+    const words = attribute.split('-');
+    const capitalizedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1));
+    const name = capitalizedWords.join(' ');
     return name;
 }
 
+
 // Initialize game setup
-setupGame();
+// setupGame();
 
 // SHEET
 function createSheetTable() {
     const tbody = document.querySelector('#sheet-table tbody');
     tbody.innerHTML = '';
 
-    for (const row in sheet) {
+    for (const row in sheet2) {
         const tr = document.createElement('tr');
         const th = document.createElement('th');
+        // TODO pas mettre "Col." avant tous les noms
         th.textContent = `Col. ${capitalizeFirstLetter(row)}`;
         tr.appendChild(th);
 
-        for (const col in sheet[row]) {
+        for (const col in sheet2[row]) {
             const td = document.createElement('td');
             td.id = `cell-${row}-${col}`;
-            td.textContent = sheet[row][col].text;
-            td.style.backgroundColor = sheet[row][col].backgroundColor;
+            td.textContent = sheet2[row][col].text;
+            td.style.backgroundColor = sheet2[row][col].backgroundColor;
             tr.appendChild(td);
         }
 
@@ -705,30 +1679,9 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function executeCommand() {
-    const command = document.getElementById('command-input').value.trim();
-
-    if (command.startsWith('sheet.') && command.includes('=')) {
-        const [key, value] = command.split('=').map(s => s.trim());
-        const keys = key.split('.').slice(1); // Remove 'sheet'
-        const [color, character, attribute] = keys;
-
-        if (sheet[color] && sheet[color][character] !== undefined) {
-            if (attribute === 'text' || attribute === 'backgroundColor') {
-                sheet[color][character][attribute] = value.replace(/['"]+/g, ''); // Remove quotes if any
-                const cell = document.getElementById(`cell-${color}-${character}`);
-                if (attribute === 'text') {
-                    cell.textContent = sheet[color][character][attribute];
-                } else if (attribute === 'backgroundColor') {
-                    cell.style.backgroundColor = sheet[color][character][attribute];
-                }
-            } else {
-                alert('Invalid attribute');
-            }
-        } else {
-            alert('Invalid command or cell reference');
-        }
-    } else {
-        alert('Invalid command format');
-    }
+function displayError(msg){
+    errorElem.textContent = msg;
 }
+
+
+displayMessage('Select a character by clicking on an image.')
