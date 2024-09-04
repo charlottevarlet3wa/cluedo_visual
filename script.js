@@ -217,6 +217,28 @@ const characterImages = {
 };
 
 
+const nameToImage = {
+    "Colonel Mustard" : 'mustard', 
+    "Mr. Green": 'green', 
+    "Mrs. Peacock": 'peacock', 
+    "Miss Scarlet" : 'scarlet', 
+    "Mrs. White" : 'white',
+    "Dagger": 'dagger', 
+    "Candle Stick" : 'candlestick', 
+    "Revolver" : 'revolver', 
+    "Rope" : 'rope', 
+    "Lead Pipe" : 'pipe', 
+    "Wrench" : 'wrench',
+    "Kitchen" : 'kitchen', 
+    "Hall" : 'hall', 
+    "Lounge" : 'lounge', 
+    "Dining Room" : 'diningroom', 
+    "Ballroom" : 'ballroom', 
+    "Conservatory" : 'conservatory', 
+    "Library" : 'library'
+}
+
+
 function selectCharacter(characterKey) {
     gameState.selectedCharacter = characterKey;
     const characterName = game.characters[characterKey].name;
@@ -224,10 +246,9 @@ function selectCharacter(characterKey) {
     // Update name and image in the info section
     document.getElementById('my-name').textContent = characterName;
     const imageElement = document.createElement('img');
-    imageElement.src = characterImages[characterKey];
+    // imageElement.src = characterImages[characterKey];
+    imageElement.src = `images/${characterKey}.jpg`;
     imageElement.alt = characterName;
-    imageElement.style.width = '100px';
-    imageElement.style.height = 'auto';
 
     const imageContainer = document.getElementById('my-image');
     imageContainer.innerHTML = '';
@@ -253,6 +274,7 @@ function selectCharacter(characterKey) {
     tables.forEach(table => {
         table.classList.add(characterKey);
     })
+    document.getElementById('info-container').style.display = 'block';
     setupGame();
 }
 
@@ -288,145 +310,7 @@ function updateSheetBackgroundColor(category, row, column, newColor) {
     }
 }
 
-// function executeCommand(command) {
-    
-//     // Remove unnecessary spaces
-//     command = command.trim();
 
-//     // Check if the command concerns 'sheet'
-//     const sheetRegex = /^sheet\.(suspects|weapons|rooms)\.([a-zA-Z]+)\.([a-zA-Z]+)\.(text|backgroundColor)\s*=\s*['"](.+)['"]\s*;?$/;
-//     const sheetMatch = command.match(sheetRegex);
-
-//     if (sheetMatch) {
-//         const [, category, row, column, property, value] = sheetMatch;
-
-//         // Validate categories, rows, and columns
-//         if (!sheet[category]) {
-//             displayError(`Invalid category "${category}".`);
-//             return;
-//         }
-
-//         if (!sheet[category][row]) {
-//             displayError(`Invalid name "${row}" in category "${category}".`);
-//             return;
-//         }
-
-//         if (!sheet[category][row][column]) {
-//             displayError(`Invalid name "${column}" for row "${row}" in category "${category}".`);
-//             return;
-//         }
-
-//         // Apply the modification
-//         sheet[category][row][column][property] = value;
-//         const cellId = `${category}-${row}-${column}`;
-//         const cell = document.getElementById(cellId);
-
-//         if (property === 'text') {
-//             cell.textContent = value;
-//         } else if (property === 'backgroundColor') {
-//             cell.style.backgroundColor = value;
-//         }
-
-//         return;
-//     }
-
-//     // Check if the command concerns 'game'
-//     const gameCommandRegex = /^game\.characters\.([a-zA-Z]+)\.([a-zA-Z]+)\(([^)]*)\)\s*;?$/;
-//     const gameMatch = command.match(gameCommandRegex);
-
-//     if (gameMatch) {
-//         const [, characterName, methodName, params] = gameMatch;
-
-//         // Restrict command execution to the selected character
-//         if (characterName !== gameState.selectedCharacter) {
-//             displayError(`You cannot control ${characterName}.`);
-//             return;
-//         }
-
-//         const character = game.characters[characterName];
-//         if (typeof character[methodName] !== 'function') {
-//             displayError(`Invalid method "${methodName}" for the character "${characterName}".`);
-//             return;
-//         }
-
-//         // Extract and apply parameters
-//         let args = params.split(',').map(arg => arg.trim().replace(/^['"]|['"]$/g, ''));
-
-//         // Call the appropriate method with the provided arguments
-//         switch (methodName) {
-//             case 'move':
-//                 if(gameState.currentStep != 'move'){
-//                     displayError("Method 'move' is unavailable right now.")
-//                     return;
-//                 }
-//                 if (args.length === 2) {
-//                     const [x, y] = args.map(Number);
-//                     if (isNaN(x) || isNaN(y)) {
-//                         displayError("Coordinates must be numbers.");
-//                         return;
-//                     }
-//                     const hasMoved = move(x, y);
-//                     if(hasMoved) {
-//                         gameState.currentStep = 'choose';
-//                     }
-//                 } else {
-//                     displayError("The move command requires two parameters: x and y.");
-//                 }
-//                 break;
-//             case 'roll':
-//                 if(gameState.currentStep != 'dice'){
-//                     displayError(`Method '${methodName}' is unavailable right now.`)
-//                     return;
-//                 }
-//                 rollDice();
-//                 gameState.currentStep = 'move';
-//                 break;
-//             case 'suggest':
-//                 if(gameState.currentStep != 'choose'){
-//                     displayError(`Method '${methodName}' is unavailable right now.`)
-//                     return;
-//                 }
-//                 if (args.length === 3) {
-//                     const [suspect, weapon, room] = args;
-//                     const hasSuggested = makeSuggestion(suspect, weapon, room);
-//                     if(hasSuggested){
-//                         gameState.currentStep = 'aiDice';
-//                     }
-//                 } else {
-//                     displayError("The suggest command requires three parameters: character, weapon, and room.");
-//                 }
-//                 break;
-//             case 'accuse':
-//                 if(gameState.currentStep != 'choose'){
-//                     displayError(`Method '${methodName}' is unavailable right now.`)
-//                     return;
-//                 }
-//                 if (args.length === 3) {
-//                     const [suspect, weapon, room] = args;
-//                     makeAccusation(suspect, weapon, room);
-//                 } else {
-//                     displayError("The accuse command requires three parameters: character, weapon, and room.");
-//                 }
-//                 break;
-//             case 'skip':
-//                 if(gameState.currentStep != 'choose'){
-//                     displayError(`Method '${methodName}' is unavailable right now.`)
-//                     return;
-//                 }
-//                 gameState.currentStep = 'aiDice';
-//                 skip();
-//                 break;
-//             default:
-//                 displayError(`Unknown method "${methodName}".`);
-//                 break;
-//         }
-
-//         return;
-//     }
-
-//     // If no valid command is found
-//     displayError('Invalid command. Use a valid format for sheet or game.');
-// }
 
 function executeCommand(command) {
     // Remove unnecessary spaces
@@ -976,6 +860,8 @@ function setupGame() {
     // createSheetTable();
 
     // Initialisation des positions des personnages
+    console.log(characters)
+    
     setCharacterPosition(document.getElementById('miss-scarlet'), 7, 3);
     setCharacterPosition(document.getElementById('colonel-mustard'), 7, 20);
     setCharacterPosition(document.getElementById('mrs-white'), 10, 9);
@@ -983,6 +869,7 @@ function setupGame() {
     setCharacterPosition(document.getElementById('mrs-peacock'), 20, 19);
 
     characters.forEach((character, index) => {
+        character.style.display = 'block';
         gameState.aiRoomStayCount.push({
             "Kitchen": 0,
             "Hall": 0,
@@ -996,7 +883,12 @@ function setupGame() {
         gameState.aiObjectives.push(closestDoor);
     });
 
-    document.getElementById('my-cards').textContent = "My cards: " + gameState.cards[gameState.humanPlayerIndex];
+    document.querySelector('#my-cards p').textContent = "My cards: " + gameState.cards[gameState.humanPlayerIndex];
+    const cardImages = document.querySelectorAll('#my-cards img');
+    gameState.cards[gameState.humanPlayerIndex].forEach((card, i) => {
+        console.log(card)
+        cardImages[i].src = `images/${nameToImage[card]}.jpg`;
+    })
     nextPlayer();
 }
 
@@ -1004,7 +896,7 @@ function setupGame() {
 function initializeDeck() {
     // Définir les cartes de personnages, d'armes et de pièces
     gameState.deck.characters = ["Colonel Mustard", "Mr. Green", "Mrs. Peacock", "Miss Scarlet", "Mrs. White"]; // 5
-    gameState.deck.weapons = ["Dagger", "Candlestick", "Revolver", "Rope", "Lead Pipe", "Wrench"]; // 6
+    gameState.deck.weapons = ["Dagger", "Candle Stick", "Revolver", "Rope", "Lead Pipe", "Wrench"]; // 6
     gameState.deck.rooms = ["Kitchen", "Hall", "Lounge", "Dining Room", "Ballroom", "Conservatory", "Library"]; // 7
 
     // Mélanger chaque catégorie de cartes
@@ -1301,10 +1193,10 @@ function aiCheckSuggestion(suggestion) {
             }
         });
         if (commonCards.length == 0) {
-            displayMessage(`❌ ${interrogatedName}: ${suggestion}.(${cards})`);
+            displayMessage(`❌ ${interrogatedName}.(${cards})`);
         } else {
             const shownCard = commonCards[Math.floor(Math.random() * commonCards.length)];
-            displayMessage(`✅ ${interrogatedName}: ${suggestion}.(${cards})`);
+            displayMessage(`✅ ${interrogatedName}.(${cards})`);
             return;
         }
 
@@ -1436,7 +1328,7 @@ function rollDice() {
     const selected = characters[gameState.interrogatingCharacterIndex];
     const selectedName = gameState.players[gameState.interrogatingCharacterIndex];
 
-    displayMessage(`${selectedName} rolls the dice: ${dice}.`);
+    displayMessage(`${selectedName} rolls the dice: ${dice}. Move to a square.`);
 
     const px = parseInt(selected.getAttribute('x'), 10);
     const py = parseInt(selected.getAttribute('y'), 10);
@@ -1491,27 +1383,31 @@ function move(x, y) {
         moveToRandomPositionInRoom(selected, roomName);
         gameState.currentStep = "suggest";
         displayMessage(`${selectedName} goes to the ${roomName}.`);
+        if(gameState.interrogatingCharacterIndex === gameState.humanPlayerIndex){
+            displayMessage(`Suggest, skip or accuse.`)
+        }
     } else {
-        console.log('not door')
         const x = parseInt(targetSquare.getAttribute('x'), 10);
         const y = parseInt(targetSquare.getAttribute('y'), 10);
         setCharacterPosition(selected, x, y);
         displayMessage(`${selectedName} goes to (${x},${y}).`);
+        if(gameState.interrogatingCharacterIndex === gameState.humanPlayerIndex){
+            displayMessage(`Skip or accuse.`)
+        }
     }
 
     // Supprimer la surbrillance après le déplacement
     clearHighlights();
 
     // Afficher un message de confirmation
-    displayMessage(`Colonel Mustard se déplace sur la case (${x}, ${y}).`);
-
+    // displayMessage(`Colonel Mustard moves to square (${x}, ${y}).`);
     return true;
 }
 
 // SKIP TURN (player)
 function skip(){
     // TODO replace with playerName; replace his with her
-    displayMessage("Colonel Mustard skips his turn.");
+    displayMessage("You skip your turn.");
     nextPlayer();
 }
 
