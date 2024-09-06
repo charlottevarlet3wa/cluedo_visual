@@ -1158,10 +1158,10 @@ function aiCheckSuggestion(suggestion) {
             }
         });
         if (commonCards.length == 0) {
-            displayMessage(`❌ ${interrogatedName}.(${cards})`);
+            displayMessage(`❌ ${interrogatedName})`);
         } else {
             const shownCard = commonCards[Math.floor(Math.random() * commonCards.length)];
-            displayMessage(`✅ ${interrogatedName}.${interrogated === gameState.humanPlayerIndex? ' You show the card : ' + shownCard : ''} (${cards})`);
+            displayMessage(`✅ ${interrogatedName}.${interrogated === gameState.humanPlayerIndex? ' You show the card : ' + shownCard : ''}`);
             return;
         }
 
@@ -1420,11 +1420,11 @@ function checkSuggestion() {
             }
         });
         if (commonCards.length == 0) {
-            displayMessage(`❌ ${interrogatedName}: ${suggestion}.(${cards})`);
+            displayMessage(`❌ ${interrogatedName}: ${suggestion}.`);
         } else {
             const shownCard = commonCards[Math.floor(Math.random() * commonCards.length)];
             // displayMessage(`✅ ${interrogatedName} shows you the card: ${suggestion}.(${cards})`);
-            displayMessage(`✅ ${interrogatedName} shows you the card: ${shownCard}.(${cards})`);
+            displayMessage(`✅ ${interrogatedName} shows you the card: ${shownCard}.`);
             return;
         }
 

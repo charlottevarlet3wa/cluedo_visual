@@ -187,7 +187,8 @@ body {
     width: 100%; /* ou une largeur spécifique */
     height: 200px; /* ajustez selon les besoins */
     overflow-y: auto; /* permet le défilement vertical */
-    background-color: #f4f4f4; /* couleur de fond de la div */
+    /* background-color: #f4f4f4; couleur de fond de la div */
+    background-color: white;
     border: 1px solid #ccc; /* bordure de la div */
     
     padding: 10px; /* espace intérieur pour le padding */
@@ -196,7 +197,7 @@ body {
     line-height: 1rem;
     position: relative;
     /* border: 1px solid rgb(113, 72, 10); */
-    background-color:rgb(250, 247, 241);
+    background-color:rgb(255, 253, 250);
     border: 1px solid rgb(216, 202, 180);
 }
 
