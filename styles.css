@@ -162,7 +162,8 @@ body {
     z-index: 10; /* Assurez que le personnage apparaît au-dessus des carrés */
     transform: translate(11px, -3px);
     box-shadow: 1px 1px rgb(183, 120, 24);
-    display: none;
+    pointer-events: none;
+    /* display: none; */
 }
 
 #tooltip {
@@ -182,18 +183,57 @@ body {
 
 /* MESSAGE */
 
-.message-log {
+.message-log-container {
     width: 100%; /* ou une largeur spécifique */
     height: 200px; /* ajustez selon les besoins */
     overflow-y: auto; /* permet le défilement vertical */
     background-color: #f4f4f4; /* couleur de fond de la div */
     border: 1px solid #ccc; /* bordure de la div */
+    
     padding: 10px; /* espace intérieur pour le padding */
     box-sizing: border-box; /* inclut padding et border dans la largeur et hauteur */
     font-size: 0.8rem;
     line-height: 1rem;
+    position: relative;
+    /* border: 1px solid rgb(113, 72, 10); */
+    background-color:rgb(250, 247, 241);
+    border: 1px solid rgb(216, 202, 180);
 }
 
+.message-log-container .row {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    gap: 2px;
+    
+}
+
+.save-btns {
+    position: absolute;
+    gap: 2px;
+    right: 0;
+}
+
+.save-btns button {
+    position: relative;
+    background-color:rgb(235, 227, 214);
+    /* color:rgb(62, 37, 0); */
+    color:rgb(113, 72, 10);
+    border: 1px solid rgb(113, 72, 10);
+    /* border: 1px solid black; */
+    /* box-shadow: 1px 1px 0px rgb(113, 72, 10); */
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 4px;
+}
+.save-btns button:hover {
+    background-color:rgb(231, 217, 195);
+    transform: translateY(-1px);
+}
+
+.save-btns button:active {
+    transform: translateY(1px);
+}
 #error {
     color: red;
 }

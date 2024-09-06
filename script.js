@@ -635,13 +635,10 @@ commandInput.addEventListener('keydown', function(event) {
 const gameState = {
     players: ["Colonel Mustard", "Mr. Green", "Mrs. Peacock", "Miss Scarlet", "Mrs. White"], // 5 joueurs
     playersId: ["colonel-mustard", "mr-green", "mrs-peacock", "miss-scarlet", "mrs-white"], // 5 joueurs
-    // currentPlayerIndex: 5, // Indice du joueur (humain) actuel (à supprimer)
+    playersKey: ["mustard", "green", "peacock", "scarlet", "white"], // 5 joueurs
     humanPlayerIndex: 0, // Indice du joueur (humain) actuel 
     selectedCharacter: null, // element DOM du pion à déplacer
-    // isPlayerTurn: true, // Vérifie si c'est le tour du joueur humain
     currentStep: 'start', // Gère l'étape actuelle de l'IA
-    // suggestionResponseIndex: 0,
-    // turnIndex: 0, // indice du joueur qui interroge (à supprimer)
     roundIndex: 0, // max nombre de tours potentiellement infini, à définir manuellement
     interrogatedCharacterIndex: 0, // indice du joueur interrogé
     interrogatingCharacterIndex: 0, // indice du joueur qui interroge
@@ -667,7 +664,89 @@ document.addEventListener('keydown', (e) => {
     if(e.key === 'w'){
         console.log(gameState)
     }
+    if(e.key === 'x'){
+        console.log(log.innerHTML)
+    }
+    if(e.key === 'c'){
+        console.log(sheet)
+    }
 })
+
+// Function to save game state and sheet into localStorage
+function saveGame() {
+    const positions = [];
+    characters.forEach(char => positions.push({x: char.getAttribute('x'), y: char.getAttribute('y'), room: char.getAttribute('room')}));
+    const sheetTables = [];
+    document.querySelectorAll('table').forEach(table => {
+        sheetTables.push(table.innerHTML);
+    });
+    const saveData = {
+        gameState: gameState,
+        savedSheet: sheet,
+        savedSheetTables : sheetTables,
+        savedLog: log.innerHTML,
+        savedPositions: positions
+    };
+    localStorage.setItem('savedGame', JSON.stringify(saveData));
+    displayMessage('Game saved successfully!');
+}
+
+// Function to load game state and sheet from localStorage
+function resumeGame() {
+    const savedData = localStorage.getItem('savedGame');
+    if (!savedData) {
+        displayMessage('No saved game found.');
+        return;
+    }
+
+    const { gameState: savedGameState, savedSheet, savedSheetTables, savedLog, savedPositions } = JSON.parse(savedData);
+    console.log(JSON.parse(savedData))
+
+    // Restore gameState
+    Object.assign(gameState, savedGameState);
+    console.log(gameState)
+
+    // Restore sheet
+    Object.assign(sheet, savedSheet);
+
+    log.innerHTML = savedLog;
+
+
+
+    // Recreate the game sheet table
+    document.querySelectorAll('table').forEach((table, i) => {
+        table.innerHTML = savedSheetTables[i];
+    })
+
+    displayMessage('Game resumed successfully!');
+
+    switch(gameState.currentStep){
+        case 'start':
+            displayMessage('Select a character by clicking on an image.');
+            break;
+        default:
+            selectCharacter(gameState.playersKey[gameState.humanPlayerIndex])
+            restoreCharacterPositions(savedPositions);
+            // Object.assign(gameState, savedGameState);
+    }
+}
+
+// Restore character positions based on saved gameState
+function restoreCharacterPositions(savedPositions) {
+    savedPositions.forEach((pos, i) => {
+        if(pos.room !== "null"){
+            // moveToRandomPositionInRoom(characters[i], pos.room);
+            characters[i].style.left = '0px';
+        } else {
+            setCharacterPosition(characters[i], pos.x, pos.y)
+        }
+    });
+}
+
+// Event listeners for Save and Resume buttons
+document.getElementById('save-btn').addEventListener('click', saveGame);
+document.getElementById('resume-btn').addEventListener('click', resumeGame);
+
 
 const log = document.getElementById('message-log');
 const tooltip = document.getElementById('tooltip');
@@ -731,21 +810,31 @@ const sheet2 = {
 // Setup game
 function setupGame() {
     // populateSelects();
+
+    gameState.aiObjectives.length = 0;
+    gameState.aiRoomStayCount.length = 0;
+    gameState.cards.length = 0;
+
+
     initializeDeck();
     selectSolution();
     distributeCards();
 
-    // SHEET
-    // createSheetTable();
-
-    // Initialisation des positions des personnages
-    console.log(characters)
-    
     setCharacterPosition(document.getElementById('miss-scarlet'), 7, 3);
+    gameState.aiCurrentRooms[0] = { id: 'miss-scarlet', x: 7, y: 3 };
+    
     setCharacterPosition(document.getElementById('colonel-mustard'), 7, 20);
+    gameState.aiCurrentRooms[1] = { id: 'colonel-mustard', x: 7, y: 20 };
+
     setCharacterPosition(document.getElementById('mrs-white'), 10, 9);
+    gameState.aiCurrentRooms[2] = { id: 'mrs-white', x: 10, y: 9 };
+
     setCharacterPosition(document.getElementById('mr-green'), 19, 5);
+    gameState.aiCurrentRooms[3] = { id: 'mr-green', x: 19, y: 5 };
+
     setCharacterPosition(document.getElementById('mrs-peacock'), 20, 19);
+    gameState.aiCurrentRooms[4] = { id: 'mrs-peacock', x: 20, y: 19 };
+
 
     characters.forEach((character, index) => {
         character.style.display = 'block';
@@ -758,14 +847,20 @@ function setupGame() {
             "Conservatory": 0,
             "Library": 0
         });
+    });
+
+    characters.forEach((character, index) => {
         const closestDoor = findClosestDoor(character.getAttribute('x'), character.getAttribute('y'));
         gameState.aiObjectives.push(closestDoor);
-    });
+    })
 
     document.querySelector('#my-cards p').textContent = "My cards: " + gameState.cards[gameState.humanPlayerIndex];
     const cardImages = document.querySelectorAll('#my-cards img');
     gameState.cards[gameState.humanPlayerIndex].forEach((card, i) => {
-        console.log(card)
+        if(i > 2) {
+            return;
+        }
+
         cardImages[i].src = `images/${nameToImage[card]}.jpg`;
     })
     nextPlayer();
@@ -1066,7 +1161,7 @@ function aiCheckSuggestion(suggestion) {
             displayMessage(`❌ ${interrogatedName}.(${cards})`);
         } else {
             const shownCard = commonCards[Math.floor(Math.random() * commonCards.length)];
-            displayMessage(`✅ ${interrogatedName}.${interrogated === gameState.humanPlayerIndex? ' You show the card : ' + shownCard : ''}`);
+            displayMessage(`✅ ${interrogatedName}.${interrogated === gameState.humanPlayerIndex? ' You show the card : ' + shownCard : ''} (${cards})`);
             return;
         }
 
@@ -1096,21 +1191,24 @@ function setCharacterPosition(character, x, y) {
         character.style.top = `${square.offsetTop}px`;
         character.setAttribute('x', x);
         character.setAttribute('y', y);
+        character.setAttribute('room', null);
     }
 }
 
 function moveToRandomPositionInRoom(character, roomName) {
     
     const room = document.querySelector(`.room.${roomName}`);
+    character.setAttribute('room', roomName)
+    console.log(room)
+    console.log(roomName)
+    console.log(character)
+    // const room = document.querySelector(`.pos.${roomName}`);
     
     if (room) {
         const {left, top, width, height} = roomToPosition.get(roomName);
         
         const randomX = Math.floor(Math.random() * (width - 50)) + left + 10;
         const randomY = Math.floor(Math.random() * (height - 50)) + top + 10;
-
-        const x = Math.floor(randomX / 25);
-        const y = Math.floor(randomY / 20);
 
         character.style.left = `${randomX}px`;
         character.style.top = `${randomY}px`;
@@ -1132,28 +1230,6 @@ squares.forEach(square => {
         this.classList.remove('hover');
         tooltip.style.display = 'none';
     });
-
-    // square.addEventListener('click', function () {
-    //     const selected = characters[gameState.interrogatingCharacterIndex];
-    //     const selectedName = gameState.players[gameState.interrogatingCharacterIndex];
-    //     if (selected && this.classList.contains('highlight')) {
-    //         clearHighlights();
-    //         if (this.classList.contains('door')) {
-    //             const roomName = this.getAttribute('room');
-    //             selected.setAttribute('room', roomName);
-    //             moveToRandomPositionInRoom(selected, roomName);
-    //             gameState.currentStep = "suggest";
-    //             displayMessage(`${selectedName} goes to the ${roomName}.`);
-    //             showMessage('Choose between suggestion and accusation.');
-    //         } else {
-    //             const x = parseInt(this.getAttribute('x'), 10);
-    //             const y = parseInt(this.getAttribute('y'), 10);
-    //             setCharacterPosition(selected, x, y);
-    //             displayMessage(`${selectedName} goes to (${x},${y}).`);
-    //             showMessage('Choose between accusation and pass.');
-    //         }
-    //     }
-    // });
 });
 
 // MOVEMENTS
@@ -1226,28 +1302,46 @@ function rollDice() {
     }
 }
 
-function move(x, y) {
+function move(x, y, resumeIndex=null) {
+    console.log('move')
+    console.log(x, y, resumeIndex)
     // Trouver la case correspondante aux coordonnées x et y
-    const selected = characters[gameState.interrogatingCharacterIndex];
-    const selectedName = gameState.players[gameState.interrogatingCharacterIndex];
+    let selected = characters[gameState.interrogatingCharacterIndex];
+    let selectedName = gameState.players[gameState.interrogatingCharacterIndex];
+    
+    if(resumeIndex !== null){
+        // selected = document.getElementById(charKey);
+        selected = characters[resumeIndex];
+        selectedName = gameState.players[resumeIndex];
+        
+        
 
+        // console.log('new selected :')
+        // console.log(selected)
+    }
+    console.log(selected)
+        console.log(selectedName)
     const targetSquare = document.querySelector(`.square[x="${x}"][y="${y}"]`);
     
     if (!targetSquare) {
         displayError(`La case (${x}, ${y}) n'existe pas.`);
+        console.log('no')
         return false;
     }
 
     // Vérifier que la case est en surbrillance (highlight)
-    if (!targetSquare.classList.contains('highlight')) {
+    if (!targetSquare.classList.contains('highlight') && resumeIndex == null) {
         displayError(`Vous ne pouvez pas vous déplacer sur la case (${x}, ${y}) car elle n'est pas accessible.`);
+        console.log('no2')
         return false;
     }
 
     // Déplacer le personnage sur la case
     const characterElement = document.getElementById(gameState.playersId[gameState.humanPlayerIndex]);
 
+    console.log('up')
     if (targetSquare.classList.contains('door')) {
+        console.log('door')
         const roomName = targetSquare.getAttribute('room');
         selected.setAttribute('room', roomName);
         moveToRandomPositionInRoom(selected, roomName);
@@ -1257,6 +1351,7 @@ function move(x, y) {
             displayMessage(`Suggest, skip or accuse.`)
         }
     } else {
+        console.log('no door')
         const x = parseInt(targetSquare.getAttribute('x'), 10);
         const y = parseInt(targetSquare.getAttribute('y'), 10);
         setCharacterPosition(selected, x, y);
@@ -1400,12 +1495,6 @@ function displayMessage(message, br = false) {
     log.scrollTop = log.scrollHeight; // Défile vers le bas à chaque nouveau message
 }
 
-// Seul le premier mot a une capitale
-// function roomAttributeToName(attribute) {
-//     const name = attribute.charAt(0).toUpperCase() + attribute.slice(1).replace(/-/g, " ");
-//     return name;
-// }
-
 // Tous les mots ont une capitale
 function roomAttributeToName(attribute) {
     const words = attribute.split('-');
@@ -1415,32 +1504,29 @@ function roomAttributeToName(attribute) {
 }
 
 
-// Initialize game setup
-// setupGame();
-
 // SHEET
-function createSheetTable() {
-    const tbody = document.querySelector('#sheet-table tbody');
-    tbody.innerHTML = '';
+// function createSheetTable() {
+//     const tbody = document.querySelector('#sheet-table tbody');
+//     tbody.innerHTML = '';
 
-    for (const row in sheet2) {
-        const tr = document.createElement('tr');
-        const th = document.createElement('th');
-        // TODO pas mettre "Col." avant tous les noms
-        th.textContent = `Col. ${capitalizeFirstLetter(row)}`;
-        tr.appendChild(th);
+//     for (const row in sheet2) {
+//         const tr = document.createElement('tr');
+//         const th = document.createElement('th');
+//         // TODO pas mettre "Col." avant tous les noms
+//         th.textContent = `Col. ${capitalizeFirstLetter(row)}`;
+//         tr.appendChild(th);
 
-        for (const col in sheet2[row]) {
-            const td = document.createElement('td');
-            td.id = `cell-${row}-${col}`;
-            td.textContent = sheet2[row][col].text;
-            td.style.backgroundColor = sheet2[row][col].backgroundColor;
-            tr.appendChild(td);
-        }
+//         for (const col in sheet2[row]) {
+//             const td = document.createElement('td');
+//             td.id = `cell-${row}-${col}`;
+//             td.textContent = sheet2[row][col].text;
+//             td.style.backgroundColor = sheet2[row][col].backgroundColor;
+//             tr.appendChild(td);
+//         }
 
-        tbody.appendChild(tr);
-    }
-}
+//         tbody.appendChild(tr);
+//     }
+// }
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);

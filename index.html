@@ -9,6 +9,10 @@
 
 <body class="game">
     <div class="board-container">
+        <div class="row save-btns">
+            <button id="save-btn">Save</button>
+            <button id="resume-btn">Resume</button>
+        </div>
         <div class="board">
             <div class="square" x="6" y="1"></div>
             <div class="square" x="7" y="1"></div>
@@ -302,6 +306,7 @@
     </div>
 
 
+
     <div class="character" id="colonel-mustard" room="null" style="background-color: gold;"></div>
     <div class="character" id="mr-green" room="null"></div>
     <div class="character" id="mrs-peacock" room="null"></div>
@@ -320,8 +325,11 @@
     </div>
     
     
-    
+
+<div class="message-log-container">
     <div id="message-log" class="message-log"></div>
+
+</div>    
     
     <!-- <div id="message-box"></div> -->
     <div id="info-container">
