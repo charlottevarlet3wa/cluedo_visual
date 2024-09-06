@@ -631,145 +631,17 @@ commandInput.addEventListener('keydown', function(event) {
 });
 
 
-// const commandInput = document.getElementById('command-input');
-
-// // Liste des options d'autocomplétion par contexte
-// const autoCompleteOptions = {
-//     initial: ["game", "sheet"],
-//     sheet: ["suspects", "weapons", "rooms"],
-//     sheetCharacter: ["mustard", "green", "peacock", "scarlet", "white"], // noms des suspects
-//     sheetProperty: ["text", "backgroundColor"],
-//     game: ["characters", "weapons", "rooms"],
-//     gameCharacter: ["mustard", "green", "peacock", "scarlet", "white"], // noms des personnages
-//     gameRoom: ["ballroom", "kitchen", "hall", "lounge", "diningRoom", "conservatory", "library"],
-//     gameMethod: ["suggest", "accuse", "move", "roll", "skip"],
-//     name: ["name"]
-// };
-
-// // Événement keydown pour l'autocomplétion
-// commandInput.addEventListener('keydown', function(event) {
-//     if (event.ctrlKey || event.altKey || event.metaKey || event.key.length > 1) return;
-
-//     let currentText = commandInput.value;
-
-//     if (event.key.match(/[a-zA-Z0-9]/)) {
-//         currentText += event.key;
-
-//         // Déterminer le contexte actuel en fonction du texte déjà saisi
-//         let suggestions = [];
-//         // let parts = currentText.split('.');
-//         let parts = currentText.split('(')[0].split('.');
-//         let lastPart = parts.pop(); // On récupère la dernière partie à compléter
-//         let args = [];
-
-//         // Gérer les méthodes avec arguments
-//         if (currentText.includes('(')) {
-//             const methodParts = currentText.split('(')[1];
-//             args = methodParts.split(','); // Arguments
-//         }
-
-//         // Sélectionner les suggestions en fonction du contexte
-//         if (parts.length === 0) {
-//             suggestions = autoCompleteOptions.initial;
-//         } else if (parts[0] === "sheet") {
-//             if (parts.length === 1) {
-//                 suggestions = autoCompleteOptions.sheet;
-//             } else if (parts.length === 2) {
-//                 suggestions = autoCompleteOptions.sheetCharacter;
-//             } else if (parts.length === 3) {
-//                 suggestions = autoCompleteOptions.sheetCharacter;
-//             } else if (parts.length === 4) {
-//                 suggestions = autoCompleteOptions.sheetProperty;
-//             }
-//         } else if (parts[0] === "game") {
-//             if (parts.length === 1) {
-//                 suggestions = autoCompleteOptions.game;
-//             } else if (parts[1] === "characters" && parts.length === 2) {
-//                 suggestions = autoCompleteOptions.gameCharacter;
-//             } else if (parts[1] === "characters" && parts.length === 3) {
-//                 suggestions = autoCompleteOptions.gameMethod;
-//             } else if (parts[1] === "rooms" && parts.length === 2) {
-//                 suggestions = autoCompleteOptions.gameRoom;
-//             }
-//         }
-
-//         // Gérer l'autocomplétion des arguments
-//         if (args.length > 0) {
-//             const lastArg = args[args.length - 1].trim();
-//             const argParts = lastArg.split('.');
-
-//             if (argParts.length === 1) {
-//                 suggestions = autoCompleteOptions.initial;
-//             } else if (argParts.length === 2) {
-//                 if (argParts[0] === "game") {
-//                     suggestions = autoCompleteOptions.game;
-//                 }
-//             } else if (argParts[1] === "characters" && argParts.length === 3) {
-//                 suggestions = autoCompleteOptions.gameCharacter;
-//             } else if (argParts[1] === "rooms" && argParts.length === 3) {
-//                 suggestions = autoCompleteOptions.gameRoom;
-//             } else if (argParts.length === 4 && argParts[3] === "name") {
-//                 suggestions = autoCompleteOptions.name;
-//             }
-
-//             const lastArgPart = argParts[argParts.length - 1];
-//             const matchingOptions = suggestions.filter(option => option.startsWith(lastArgPart));
-
-//             if (matchingOptions.length === 1) {
-//                 event.preventDefault();
-//                 console.log('hey !')
-//                 console.log('arg parts :')
-//                 console.log(argParts)
-//                 console.log('slie :')
-//                 console.log(argParts.slice(0, -1))
-//                 console.log('join :')
-//                 console.log(argParts.slice(0, -1).join('.'))
-//                 console.log('args :')
-//                 console.log(args)
-//                 console.log('args length :')
-//                 console.log(args.length)
-//                 if(!args[0]) {
-//                     args[args.length - 1] = matchingOptions[0];
-//                 } else {
-//                     args[args.length - 1] = argParts.slice(0, -1).join('.') + '.' + matchingOptions[0];
-//                 }
-//                 parts.push(lastPart); // Ajouter la partie déjà complétée
-//                 commandInput.value = parts.join('.') + '(' + args.join(', ');
-//             }
-//         } else {
-//             // Autocomplétion normale pour le texte en dehors des arguments
-//             const matchingOptions = suggestions.filter(option => option.startsWith(lastPart));
-
-//             if (matchingOptions.length === 1) {
-//                 event.preventDefault();
-//                 parts.push(matchingOptions[0]); // Ajouter la partie complétée
-
-//                 if (currentText.includes('(')) {
-//                     // S'il y a déjà une parenthèse ouvrante, on ne touche pas à la suite
-//                     commandInput.value = parts.join('.') + '(' + args.join(', ');
-//                 } else {
-//                     commandInput.value = parts.join('.');
-//                 }
-//             }
-//         }
-//     }
-// });
-
-
-
-
-
 
 const gameState = {
     players: ["Colonel Mustard", "Mr. Green", "Mrs. Peacock", "Miss Scarlet", "Mrs. White"], // 5 joueurs
     playersId: ["colonel-mustard", "mr-green", "mrs-peacock", "miss-scarlet", "mrs-white"], // 5 joueurs
-    currentPlayerIndex: 5, // Indice du joueur (humain) actuel (à supprimer)
+    // currentPlayerIndex: 5, // Indice du joueur (humain) actuel (à supprimer)
     humanPlayerIndex: 0, // Indice du joueur (humain) actuel 
     selectedCharacter: null, // element DOM du pion à déplacer
-    isPlayerTurn: true, // Vérifie si c'est le tour du joueur humain
+    // isPlayerTurn: true, // Vérifie si c'est le tour du joueur humain
     currentStep: 'start', // Gère l'étape actuelle de l'IA
-    suggestionResponseIndex: 0,
-    turnIndex: 0, // indice du joueur qui interroge (à supprimer)
+    // suggestionResponseIndex: 0,
+    // turnIndex: 0, // indice du joueur qui interroge (à supprimer)
     roundIndex: 0, // max nombre de tours potentiellement infini, à définir manuellement
     interrogatedCharacterIndex: 0, // indice du joueur interrogé
     interrogatingCharacterIndex: 0, // indice du joueur qui interroge
@@ -783,12 +655,19 @@ const gameState = {
     accusation: [],
     isFalseAccusation: false, // quand le joueur a fait une mauvaise accusation, il ne pourra plus que répondre aux suggestions
     solution: { character: null, weapon: null, room: null },
-    messageBox: document.getElementById('message-box'),
+    // messageBox: document.getElementById('message-box'),
     aiObjectives: [], // Stocke les objectifs des IA
     aiRoomStayCount: [], // Compte le nombre de tours passés dans une pièce par les IA
     aiCurrentRooms: [null, null, null, null, null],
     isStarted: false
 };
+
+//test
+document.addEventListener('keydown', (e) => {
+    if(e.key === 'w'){
+        console.log(gameState)
+    }
+})
 
 const log = document.getElementById('message-log');
 const tooltip = document.getElementById('tooltip');
@@ -1151,15 +1030,6 @@ function chooseRandomCard(deck) {
     return deck[randomIndex];
 }
 
-// Fonction pour faire une suggestion aléatoire
-// function aiMakeSuggestion() {
-//     const character = chooseRandomCard(gameState.deck.characters);
-//     const weapon = chooseRandomCard(gameState.deck.weapons);
-//     const roomAttribute = characters[gameState.interrogatingCharacterIndex].getAttribute('room');
-//     const room = roomAttributeToName(roomAttribute);
-//     return [character, weapon, room];
-// }
-
 function aiMakeSuggestion() {
     const aiIndex = gameState.interrogatingCharacterIndex;
     const currentRoom = characters[aiIndex].getAttribute('room');
@@ -1196,7 +1066,7 @@ function aiCheckSuggestion(suggestion) {
             displayMessage(`❌ ${interrogatedName}.(${cards})`);
         } else {
             const shownCard = commonCards[Math.floor(Math.random() * commonCards.length)];
-            displayMessage(`✅ ${interrogatedName}.(${cards})`);
+            displayMessage(`✅ ${interrogatedName}.${interrogated === gameState.humanPlayerIndex? ' You show the card : ' + shownCard : ''}`);
             return;
         }
 
@@ -1328,7 +1198,7 @@ function rollDice() {
     const selected = characters[gameState.interrogatingCharacterIndex];
     const selectedName = gameState.players[gameState.interrogatingCharacterIndex];
 
-    displayMessage(`${selectedName} rolls the dice: ${dice}. Move to a square.`);
+    displayMessage(`${selectedName} rolls the dice: ${dice}.${gameState.interrogatingCharacterIndex === gameState.humanPlayerIndex ? ' Move to a square.' : ''}`);
 
     const px = parseInt(selected.getAttribute('x'), 10);
     const py = parseInt(selected.getAttribute('y'), 10);
@@ -1458,7 +1328,8 @@ function checkSuggestion() {
             displayMessage(`❌ ${interrogatedName}: ${suggestion}.(${cards})`);
         } else {
             const shownCard = commonCards[Math.floor(Math.random() * commonCards.length)];
-            displayMessage(`✅ ${interrogatedName}: ${suggestion}.(${cards})`);
+            // displayMessage(`✅ ${interrogatedName} shows you the card: ${suggestion}.(${cards})`);
+            displayMessage(`✅ ${interrogatedName} shows you the card: ${shownCard}.(${cards})`);
             return;
         }
 

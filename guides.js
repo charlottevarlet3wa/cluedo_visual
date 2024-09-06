@@ -59,5 +59,20 @@ const sheet = {
         rope: {},
         pipe: {},
         wrench: {},
+    },
+    rooms: {
+        ballroom : {
+            mustard: {text: "", backgroundColor: "white"},
+            green: {text: "", backgroundColor: "rgb(255,255,255)"},
+            peacock: {text: "", backgroundColor: "#ffffff"},
+            scarlet: {text: "", backgroundColor: "white"},
+            white: {text: "", backgroundColor: "white"}  
+        },
+        kitchen : {},
+        hall : {},
+        lounge : {},
+        diningRoom : {},
+        conservatory : {},
+        library : {}
     }
 }

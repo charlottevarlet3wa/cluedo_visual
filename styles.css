@@ -177,7 +177,7 @@ body {
     z-index: 20;
     transform: translate(-10px, -13px);
     border: 1px solid rgb(113, 72, 10);
-
+    pointer-events: none;
 }
 
 /* MESSAGE */
